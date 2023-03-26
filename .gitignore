@@ -1,0 +1,16 @@
+data/*
+data/badger-db/*
+data/connector/*
+data/discovery/*
+data/proxy/*
+
+!data/.gitkeep
+!data/badger-db
+!data/connector
+!data/discovery
+!data/proxy
+
+!data/badger-db/.gitkeep
+!data/connector/.gitkeep
+!data/discovery/.gitkeep
+!data/proxy/.gitkeep
