@@ -52,6 +52,8 @@ module ConnectionsController
 
     connections[:custom].values.each do |connection|
       begin
+        connection.delete(:error)
+
         if connection[:config][:connect].nil? || connection[:config][:connect].empty?
           Lighstorm::Connection.add!(connection[:config][:name], **connection[:config].slice(
             :address, :certificate, :macaroon, :certificate_path, :macaroon_path
@@ -113,15 +115,15 @@ module ConnectionsController
 
     body[:connection][:config][:name] = body[:connection][:config][:name].gsub('/', '-').to_slug.normalize.to_s
 
-    # if body[:connection][:config][:address] =~ /localhost/ || body[:connection][:config][:address] =~ /127.0.0.1/
-    #   body[:connection][:config][:address] = body[:connection][:config][:address].gsub('localhost', '172.17.0.1')
-    #   body[:connection][:config][:address] = body[:connection][:config][:address].gsub('127.0.0.1', '172.17.0.1')
-    # end
+    if body[:connection][:config][:address] =~ /localhost/ || body[:connection][:config][:address] =~ /127.0.0.1/
+      body[:connection][:config][:address] = body[:connection][:config][:address].gsub('localhost', '172.17.0.1')
+      body[:connection][:config][:address] = body[:connection][:config][:address].gsub('127.0.0.1', '172.17.0.1')
+    end
 
-    # if body[:connection][:config][:connect] =~ /localhost/ || body[:connection][:config][:connect] =~ /127.0.0.1/
-    #   body[:connection][:config][:connect] = body[:connection][:config][:connect].gsub('localhost', '172.17.0.1')
-    #   body[:connection][:config][:connect] = body[:connection][:config][:connect].gsub('127.0.0.1', '172.17.0.1')
-    # end
+    if body[:connection][:config][:connect] =~ /localhost/ || body[:connection][:config][:connect] =~ /127.0.0.1/
+      body[:connection][:config][:connect] = body[:connection][:config][:connect].gsub('localhost', '172.17.0.1')
+      body[:connection][:config][:connect] = body[:connection][:config][:connect].gsub('127.0.0.1', '172.17.0.1')
+    end
 
     if body[:connection][:config][:certificate] =~ /%\s*$/
       body[:connection][:config][:certificate] = body[:connection][:config][:certificate].sub(/%\s*$/, '')

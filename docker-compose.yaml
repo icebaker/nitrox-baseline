@@ -7,7 +7,7 @@ services:
       NITROX_DISCOVERY: discovery:3000
       NITROX_SERVICE: nitrox/proxy
       NITROX_ENVIRONMENT: production
-      NITROX_HOST: localhost
+      NITROX_HOST: 172.17.0.1
       NITROX_PORT: 3500
     volumes:
       - ./data/proxy:/nitrox/app/service/nitrox-proxy/data
