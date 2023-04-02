@@ -35,6 +35,12 @@ module ProxyController
         body: {
           error: e.class,
           message: e.message,
+          request: {
+            service: service,
+            verb: verb,
+            headers: headers,
+            url: "http://#{address}#{path}"
+          },
           backtrace: e.backtrace,
         },
         headers: nil
@@ -51,8 +57,10 @@ module ProxyController
     headers = request.env.select { |k, _v| k.start_with? 'HTTP_' }
                      .transform_keys { |k| k.sub(/^HTTP_/, '').split('_').map(&:capitalize).join('-') }
 
+    body = request.body.read
+    
     begin
-      response = HTTP.push(service, address, path, headers, request.body.read, verb)
+      response = HTTP.push(service, address, path, headers, body, verb)
 
       {
         status: response.status,
@@ -66,6 +74,13 @@ module ProxyController
           error: e.class,
           message: e.message,
           backtrace: e.backtrace,
+          request: {
+            service: service,
+            verb: verb,
+            headers: headers,
+            url: "http://#{address}#{path}",
+            body: body
+          },
         },
         headers: nil
       }

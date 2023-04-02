@@ -8,6 +8,6 @@ module NodesController
 
     NitroxCore.lighstorm.ensure!(connection)
 
-    Lighstorm::Node.as(connection).myself.to_h
+    Lighstorm::Lightning::Node.as(connection).myself.to_h
   end
 end
