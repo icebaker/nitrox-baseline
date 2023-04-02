@@ -17,7 +17,7 @@ gem 'roda', '~> 3.66'
 
 gem 'babosa', '~> 2.0'
 
-gem 'lighstorm', '~> 0.0.15'
+gem 'lighstorm', '~> 0.0.16'
 
 group :test, :development do
   gem 'pry-byebug', '~> 3.10', '>= 3.10.1'

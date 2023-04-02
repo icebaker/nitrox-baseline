@@ -33,7 +33,7 @@ module ConnectionsController
         )
       }
 
-      connections[:default][:node] = Lighstorm::Node.myself.to_h
+      connections[:default][:node] = Lighstorm::Lightning::Node.myself.to_h
       connections[:default][:id] = "default@#{connections[:default][:node][:public_key]}"
     rescue => e
       connections[:default] = {} unless connections.key?(:default)
@@ -66,7 +66,7 @@ module ConnectionsController
           :connection, :address, :certificate, :host, :macaroon, :port
         )
 
-        connection[:node] = Lighstorm::Node.as(connection[:config][:name]).myself.to_h
+        connection[:node] = Lighstorm::Lightning::Node.as(connection[:config][:name]).myself.to_h
         connection[:id] = "#{connection[:config][:name]}@#{connection[:node][:public_key]}"
       rescue => e
         connection[:node] = nil
